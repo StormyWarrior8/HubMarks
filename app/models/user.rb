@@ -12,15 +12,15 @@ class User < ActiveRecord::Base
 
 
   def self.find_or_create_by_auth_hash(auth_hash)
-    user = User.find_by(
-            provider: auth_hash[:provider],
-            uid: auth_hash[:uid])
+    user = User.find_by( access_token: auth_hash[:access_token])
 
     unless user
+      #use octokit to get username, and stars
+      #user_info = self.initalize_gh_user(auth_hash[:access_token])
       user = User.create!(
-            provider: auth_hash[:provider],
-            uid: auth_hash[:uid],
-            username: auth_hash[:info][:name],
+            access_token: auth_hash[:access_token],
+            username: user_info[:login]
+            )
     end
 
     user
