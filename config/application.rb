@@ -9,6 +9,8 @@ Bundler.require(*Rails.groups)
 module Hubmarks
   class Application < Rails::Application
 
+    config.autoload_paths << Rails.root.join('lib')
+
     config.generators do |g|
       g.test_framework :rspec,
         :fixtures => false,
@@ -19,7 +21,7 @@ module Hubmarks
         :request_specs => false
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
-    
+
     config.active_record.raise_in_transactional_callbacks = true
   end
 end
