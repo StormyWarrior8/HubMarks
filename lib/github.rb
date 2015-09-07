@@ -2,15 +2,11 @@ require 'octokit'
 
 class Github
 
-  def initialize(username)
-    if username
-      user = User.find_by(username: username)
-    end
-
-    if user
-      #connect via user creds
+  def initialize
+    if current_user
+      @client = Octokit::Client.new(:access_token => current_user.access_token)
     else
-      #connect via app creds
+      @client = Octokit::Client.new(:client_id => ENV['GITHUB_KEY'], :client_secret => ENV['GITHUB_SECRET'])
     end
   end
 
